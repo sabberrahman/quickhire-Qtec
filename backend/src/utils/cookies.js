@@ -20,32 +20,49 @@ export const parseCookies = (cookieHeader) => {
   }, {});
 };
 
-export const buildSessionCookie = ({ name, token, maxAgeMs, isProduction }) => {
+const normalizeSameSite = (value) => {
+  const mapped = String(value || 'lax').toLowerCase();
+  if (mapped === 'none') return 'None';
+  if (mapped === 'strict') return 'Strict';
+  return 'Lax';
+};
+
+export const buildSessionCookie = ({
+  name,
+  token,
+  maxAgeMs,
+  sameSite = 'lax',
+  secure = false,
+}) => {
   const parts = [
     `${name}=${encodeURIComponent(token)}`,
     'Path=/',
     `Max-Age=${Math.floor(maxAgeMs / 1000)}`,
     'HttpOnly',
-    'SameSite=Lax',
+    `SameSite=${normalizeSameSite(sameSite)}`,
   ];
 
-  if (isProduction) {
+  if (secure) {
     parts.push('Secure');
   }
 
   return parts.join('; ');
 };
 
-export const clearSessionCookie = ({ name, isProduction }) => {
+export const clearSessionCookie = ({
+  name,
+  sameSite = 'lax',
+  secure = false,
+}) => {
   const parts = [
     `${name}=`,
     'Path=/',
     'Max-Age=0',
     'HttpOnly',
-    'SameSite=Lax',
+    `SameSite=${normalizeSameSite(sameSite)}`,
   ];
 
-  if (isProduction) {
+  if (secure) {
     parts.push('Secure');
   }
 

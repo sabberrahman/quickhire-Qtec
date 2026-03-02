@@ -56,8 +56,16 @@ Important keys:
 - `SEED_FORCE=true|false`
 - `SESSION_COOKIE_NAME`
 - `SESSION_TTL_DAYS`
+- `SESSION_COOKIE_SAME_SITE`
+- `SESSION_COOKIE_SECURE`
+- `SESSION_HEADER_NAME`
 - `DEMO_USER_EMAIL`, `DEMO_USER_PASSWORD`
 - `GUEST_USER_EMAIL`, `GUEST_USER_PASSWORD`
+
+Deploy note for split frontend/backend domains:
+
+- set `SESSION_COOKIE_SAME_SITE=none`
+- set `SESSION_COOKIE_SECURE=true`
 
 ## Run
 

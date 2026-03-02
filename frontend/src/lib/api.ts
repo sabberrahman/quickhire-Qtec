@@ -12,6 +12,7 @@ import type {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://quickhire-qtec.onrender.com/api' || 'http://localhost:4000/api';
 const ADMIN_API_KEY = import.meta.env.VITE_ADMIN_API_KEY || '';
+const SESSION_STORAGE_KEY = 'quickhire_session_token';
 
 interface ApiEnvelope<T> {
   success: boolean;
@@ -49,6 +50,11 @@ interface AuthUserApiModel {
   is_guest: boolean;
   created_at: string;
   updated_at: string;
+}
+
+interface AuthLoginApiModel {
+  user: AuthUserApiModel;
+  session_token?: string;
 }
 
 interface ApplicationStatusApiModel {
@@ -138,6 +144,20 @@ const toCompanyDetails = (company: CompanyDetailsApiModel): CompanyDetails => ({
   ...company,
 });
 
+export const sessionTokenStore = {
+  get: () => localStorage.getItem(SESSION_STORAGE_KEY),
+  set: (token: string | null | undefined) => {
+    if (!token) {
+      localStorage.removeItem(SESSION_STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(SESSION_STORAGE_KEY, token);
+  },
+  clear: () => {
+    localStorage.removeItem(SESSION_STORAGE_KEY);
+  },
+};
+
 const buildUrl = (path: string, query?: Record<string, string | number | undefined>) => {
   const url = new URL(`${API_BASE_URL}${path}`);
 
@@ -153,12 +173,14 @@ const buildUrl = (path: string, query?: Record<string, string | number | undefin
 };
 
 const request = async <T>(path: string, init?: RequestInit, query?: Record<string, string | number | undefined>): Promise<T> => {
+  const sessionToken = sessionTokenStore.get();
   const response = await fetch(buildUrl(path, query), {
     credentials: 'include',
     ...init,
     headers: {
       'Content-Type': 'application/json',
       ...(ADMIN_API_KEY ? { 'x-admin-key': ADMIN_API_KEY } : {}),
+      ...(sessionToken ? { 'x-session-token': sessionToken } : {}),
       ...(init?.headers || {}),
     },
   });
@@ -277,26 +299,29 @@ export const api = {
     password: string;
     resume_link?: string;
   }): Promise<AuthUser> => {
-    const data = await request<{ user: AuthUserApiModel }>('/auth/register', {
+    const data = await request<AuthLoginApiModel>('/auth/register', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
+    sessionTokenStore.set(data.session_token);
     return toAuthUser(data.user);
   },
 
   login: async (payload: { email: string; password: string }): Promise<AuthUser> => {
-    const data = await request<{ user: AuthUserApiModel }>('/auth/login', {
+    const data = await request<AuthLoginApiModel>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(payload),
     });
+    sessionTokenStore.set(data.session_token);
     return toAuthUser(data.user);
   },
 
   loginGuest: async (): Promise<AuthUser> => {
-    const data = await request<{ user: AuthUserApiModel }>('/auth/guest-login', {
+    const data = await request<AuthLoginApiModel>('/auth/guest-login', {
       method: 'POST',
       body: JSON.stringify({}),
     });
+    sessionTokenStore.set(data.session_token);
     return toAuthUser(data.user);
   },
 
@@ -305,6 +330,7 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({}),
     });
+    sessionTokenStore.clear();
   },
 
   getMe: async (): Promise<AuthUser | null> => {

@@ -29,7 +29,7 @@ const ProfilePage = () => {
     if (me) {
       setForm({
         name: me.name,
-        resume_link: me.resume_link || "",
+        resume_link: "",
       });
     }
   }, [me]);

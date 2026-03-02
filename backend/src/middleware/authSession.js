@@ -5,7 +5,8 @@ import { AppError } from '../utils/appError.js';
 
 export const attachAuthUser = async (req, _res, next) => {
   const cookies = parseCookies(req.headers.cookie || '');
-  const sessionToken = cookies[env.sessionCookieName] || null;
+  const headerToken = req.headers[env.sessionHeaderName] || req.headers.authorization?.replace(/^Bearer\s+/i, '');
+  const sessionToken = cookies[env.sessionCookieName] || headerToken || null;
   req.sessionToken = sessionToken;
 
   if (!sessionToken) {

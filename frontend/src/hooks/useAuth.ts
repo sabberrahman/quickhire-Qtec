@@ -7,34 +7,40 @@ export const useAuth = () => {
   return useQuery({
     queryKey: authQueryKey,
     queryFn: () => api.getMe(),
+    staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
   });
 };
 
 export const useAuthActions = () => {
   const queryClient = useQueryClient();
 
-  const refreshAuth = async () => {
-    await queryClient.invalidateQueries({ queryKey: authQueryKey });
-  };
-
   const login = useMutation({
     mutationFn: api.login,
-    onSuccess: refreshAuth,
+    onSuccess: (user) => {
+      queryClient.setQueryData(authQueryKey, user);
+    },
   });
 
   const register = useMutation({
     mutationFn: api.register,
-    onSuccess: refreshAuth,
+    onSuccess: (user) => {
+      queryClient.setQueryData(authQueryKey, user);
+    },
   });
 
   const guestLogin = useMutation({
     mutationFn: () => api.loginGuest(),
-    onSuccess: refreshAuth,
+    onSuccess: (user) => {
+      queryClient.setQueryData(authQueryKey, user);
+    },
   });
 
   const logout = useMutation({
     mutationFn: () => api.logout(),
-    onSuccess: refreshAuth,
+    onSuccess: () => {
+      queryClient.setQueryData(authQueryKey, null);
+    },
   });
 
   return {

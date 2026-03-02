@@ -16,7 +16,7 @@ const RegisterPage = () => {
     name: "",
     email: "",
     password: "",
-    resume_link: "http://localhost:8080/Shohanur_Rahman_sabbir_resume.pdf",
+    resume_link: "/Shohanur_Rahman_sabbir_resume.pdf",
   });
 
   useEffect(() => {

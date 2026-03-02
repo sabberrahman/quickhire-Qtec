@@ -47,6 +47,11 @@ export const env = {
   seedForce: process.env.SEED_FORCE === 'true',
   sessionCookieName: process.env.SESSION_COOKIE_NAME || 'quickhire_session',
   sessionTtlDays: Number.parseInt(process.env.SESSION_TTL_DAYS || '7', 10),
+  sessionCookieSameSite: process.env.SESSION_COOKIE_SAME_SITE || (isProduction ? 'none' : 'lax'),
+  sessionCookieSecure: process.env.SESSION_COOKIE_SECURE
+    ? process.env.SESSION_COOKIE_SECURE === 'true'
+    : isProduction,
+  sessionHeaderName: process.env.SESSION_HEADER_NAME || 'x-session-token',
   demoUserEmail: process.env.DEMO_USER_EMAIL || 'demo@quickhire.local',
   demoUserPassword: process.env.DEMO_USER_PASSWORD || 'Demo@12345',
   guestUserEmail: process.env.GUEST_USER_EMAIL || 'guest@quickhire.local',

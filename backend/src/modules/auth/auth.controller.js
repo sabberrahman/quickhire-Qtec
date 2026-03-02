@@ -10,7 +10,8 @@ const setSessionCookie = (res, token) => {
       name: env.sessionCookieName,
       token,
       maxAgeMs: authService.sessionTtlMs,
-      isProduction: env.isProduction,
+      sameSite: env.sessionCookieSameSite,
+      secure: env.sessionCookieSecure,
     }),
   );
 };
@@ -20,7 +21,8 @@ const clearCookie = (res) => {
     'Set-Cookie',
     clearSessionCookie({
       name: env.sessionCookieName,
-      isProduction: env.isProduction,
+      sameSite: env.sessionCookieSameSite,
+      secure: env.sessionCookieSecure,
     }),
   );
 };
@@ -35,6 +37,7 @@ export const authController = {
       message: 'Registered successfully',
       data: {
         user: data.user,
+        session_token: data.session.token,
       },
     });
   },
@@ -47,6 +50,7 @@ export const authController = {
       message: 'Logged in successfully',
       data: {
         user: data.user,
+        session_token: data.session.token,
       },
     });
   },
@@ -59,6 +63,7 @@ export const authController = {
       message: 'Guest mode enabled',
       data: {
         user: data.user,
+        session_token: data.session.token,
       },
     });
   },
