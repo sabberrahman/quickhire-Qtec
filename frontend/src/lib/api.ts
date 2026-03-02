@@ -10,7 +10,7 @@ import type {
   JobsMetaResponse,
 } from '@/types/job';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:4000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://quickhire-qtec.onrender.com/api' || 'http://localhost:4000/api';
 const ADMIN_API_KEY = import.meta.env.VITE_ADMIN_API_KEY || '';
 
 interface ApiEnvelope<T> {

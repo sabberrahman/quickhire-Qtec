@@ -84,6 +84,8 @@ npm run db:setup
 - Ready: `GET /ready`
 - Swagger: `GET /api/docs`
 
+- deployed api docs at -> https://quickhire-qtec.onrender.com/api/docs
+
 ## Main Endpoints
 
 - Jobs:
