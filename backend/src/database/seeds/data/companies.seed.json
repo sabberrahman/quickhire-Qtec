@@ -1,0 +1,68 @@
+[
+  {
+    "name": "Revolut",
+    "slug": "revolut",
+    "location": "London, UK",
+    "industry": "Fintech",
+    "website": "https://www.revolut.com",
+    "description": "Global financial technology company building modern banking and payment products.",
+    "total_employees": 10000,
+    "rating": 4.5,
+    "logo": "R"
+  },
+  {
+    "name": "Dropbox",
+    "slug": "dropbox",
+    "location": "San Francisco, US",
+    "industry": "Cloud Software",
+    "website": "https://www.dropbox.com",
+    "description": "Collaboration and cloud storage platform for teams and distributed work.",
+    "total_employees": 2800,
+    "rating": 4.3,
+    "logo": "D"
+  },
+  {
+    "name": "Canva",
+    "slug": "canva",
+    "location": "Sydney, Australia",
+    "industry": "Design Software",
+    "website": "https://www.canva.com",
+    "description": "Visual communication platform used for design, publishing, and collaboration.",
+    "total_employees": 5000,
+    "rating": 4.6,
+    "logo": "Ca"
+  },
+  {
+    "name": "Tesla",
+    "slug": "tesla",
+    "location": "Fremont, US",
+    "industry": "Automotive & Energy",
+    "website": "https://www.tesla.com",
+    "description": "Electric vehicle and clean energy company with hardware and software teams.",
+    "total_employees": 140000,
+    "rating": 4.1,
+    "logo": "Te"
+  },
+  {
+    "name": "Intel",
+    "slug": "intel",
+    "location": "Austin, US",
+    "industry": "Semiconductors",
+    "website": "https://www.intel.com",
+    "description": "Semiconductor and platform company building compute products and tooling.",
+    "total_employees": 124000,
+    "rating": 4.0,
+    "logo": "I"
+  },
+  {
+    "name": "Webflow",
+    "slug": "webflow",
+    "location": "Remote",
+    "industry": "Web Platform",
+    "website": "https://webflow.com",
+    "description": "Website experience platform for designers, marketers, and developers.",
+    "total_employees": 1200,
+    "rating": 4.4,
+    "logo": "W"
+  }
+]
